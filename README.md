@@ -719,32 +719,25 @@ Commercial support is available at
 </html>
 ```
 ### provare vi index.html
+```
 /html # echo 'ciao vincenzo giovanni ettore andre arturo'>>index.html
-
 /html # exit
-
+```
 
 ### Build and run your image
-git clone https://github.com/dockersamples/node-bulletin-board
+``$ git clone https://github.com/dockersamples/node-bulletin-board``
+``$ cd node-bulletin-board/bulletin-board-app``
+``$ ls``
 
-cd node-bulletin-board/bulletin-board-app
-
-ls
-
-cat Dockerfile
-
+``$ cat Dockerfile``
+```
 docker build --tag bulletinboar:1.0 .
-
 ls
-
 docker image ls
-
 docker container run --network host -d bulletinboard:1.0
-
 docker container ls
-
 docker login
-
+```
 ### rendo pubblica (condivido) la docker creata
 
 docker tag bulletinboard:1.0 [accaunt]/bulletinboard:1-0
