@@ -549,7 +549,7 @@ NETWORK ID          NAME                DRIVER              SCOPE
 517888c34e3a        none                null                local
 ```
 ``$ docker run -it  --network newnet1 -v nginx:/html --rm busybox``
-
+```
 / # ifconfig
 
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:15:00:02  
@@ -571,44 +571,34 @@ lo        Link encap:Local Loopback
 / # netstat -rn
 
 Kernel IP routing table
-
 Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
-
 0.0.0.0         172.21.0.1      0.0.0.0         UG        0 0          0 eth0
-
 172.21.0.0      0.0.0.0         255.255.0.0     U         0 0          0 eth0
 
 / # ping -c1 8.8.8.8
 
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
-
 64 bytes from 8.8.8.8: seq=0 ttl=127 time=21.327 ms
 
 --- 8.8.8.8 ping statistics ---
-
 1 packets transmitted, 1 packets received, 0% packet loss
-
 round-trip min/avg/max = 21.327/21.327/21.327 ms
 
 / # ping -c1 www.google.it
 
 PING www.google.it (216.58.206.35): 56 data bytes
-
 64 bytes from 216.58.206.35: seq=0 ttl=127 time=13.114 ms
 
 --- www.google.it ping statistics ---
-
 1 packets transmitted, 1 packets received, 0% packet loss
-
 round-trip min/avg/max = 13.114/13.114/13.114 ms
 
 / # hostname
-
 dc747114239f
-
+```
 ### proviamo a lanciare un container nella rete host
 ``$ docker run -it  --network host -v nginx:/html --rm busybox``
-
+```
 / # ifconfig
 
 br-76759826efad Link encap:Ethernet  HWaddr 02:42:08:F7:90:D9  
@@ -660,25 +650,19 @@ virbr0    Link encap:Ethernet  HWaddr 52:54:00:6B:52:2A
 Kernel IP routing table
 
 Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
-
 0.0.0.0         172.16.16.2     0.0.0.0         UG        0 0          0 enp0s3
-
 172.16.16.0     0.0.0.0         255.255.255.0   U         0 0          0 enp0s3
-
 172.17.0.0      0.0.0.0         255.255.0.0     U         0 0          0 docker0
-
 172.21.0.0      0.0.0.0         255.255.0.0     U         0 0          0 br-76759826efad
-
 192.168.122.0   0.0.0.0         255.255.255.0   U         0 0          0 virbr0
 
 / # hostname
-
 NFServer
-
+```
 ### nginx da file yaml e busybox
 
 ``$ vi nginx.yaml``
-
+```
 version: '2.0'
 
 services:
@@ -698,17 +682,14 @@ services:
 
 volumes:
   nginx:
-
+```
 ### comandi per busybox
 
 ``$ docker container run -it -v annaleda_nginx:/html --rm busybox``
-
+```
 / # cd html
-
 /html # ls
-
 50x.html    index.html
-
 /html # cat index.html
 
 <!DOCTYPE html>
@@ -736,7 +717,7 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
-
+```
 ### provare vi index.html
 /html # echo 'ciao vincenzo giovanni ettore andre arturo'>>index.html
 
