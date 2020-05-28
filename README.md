@@ -74,7 +74,7 @@ https://docs.docker.com/get-started/
  > ``"IPAddress": "172.17.0.3",``
 
 ``$ ping -c1 172.17.0.3``
-
+#### ricavo l'ip dell'host
 ``$ ip a``
 
 
@@ -87,7 +87,7 @@ https://docs.docker.com/get-started/
 >
 >2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 08:00:27:f7:2a:92 brd ff:ff:ff:ff:ff:ff
-    inet 172.16.16.95/24 brd 172.16.16.255 scope global enp0s3
+    inet *172.16.16.95/24* brd 172.16.16.255 scope global enp0s3
        valid_lft forever preferred_lft forever
     inet6 fe80::a00:27ff:fef7:2a92/64 scope link
        valid_lft forever preferred_lft forever
@@ -99,12 +99,16 @@ https://docs.docker.com/get-started/
     inet6 fe80::42:95ff:fe2c:5486/64 scope link
        valid_lft forever preferred_lft forever
 
- ### voglio vedere i processi che girano dentro il container
- docker container top mysql1
+### voglio vedere i processi che girano dentro il container
+``$ docker container top mysql1``
+
  UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+
 27                  20372               20324               1                   09:57               ?                   00:00:13            mysqld --init-file=/var/lib/mysql-files/2AZpaJenaI
- docker container top mysql2
+``$ docker container top mysql2``
+
  UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+
 27                  21288               21263               1                   10:09               ?                   00:00:07            mysqld --init-file=/var/lib/mysql-files/Qmit2GAWht
 
 ### proviamo a lanciare container con contenuto differente, tipo un frontend
