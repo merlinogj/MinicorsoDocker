@@ -4,10 +4,10 @@
 https://docs.docker.com/get-started/
 
 ### installa docker nel sistema linux ubuntu 18.04
-  sudo apt update && sudo apt upgrade -y && sudo apt install docker docker.io
+``$ sudo apt update && sudo apt upgrade -y && sudo apt install docker docker.io``
 
 ### Il mio utente è nel gruppo docker?
-$ id``      *serve per capire di quali gruppi facciamo parte*
+``$ id``      *serve per capire di quali gruppi facciamo parte*
 
 ``uid=1000(massimo) gid=1000(massimo) gruppi=1000(massimo),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),112(lpadmin),124(sambashare),125(vboxusers),148(ubridge),149(libvirt),1001(bumblebee),1003(docker)
 ``
@@ -32,33 +32,32 @@ $ id``      *serve per capire di quali gruppi facciamo parte*
 ``$ docker container ls``
 ### vediamo i "logs" di installazione in cui compare la password creata automaticamente
 ``$ docker container logs mysql1 | grep GENERATED``
-[Entrypoint] GENERATED ROOT PASSWORD: GawLYjBYBUx3vjANyfuvez-Ixop
+  [Entrypoint] GENERATED ROOT PASSWORD: GawLYjBYBUx3vjANyfuvez-Ixop
 
-docker exec -it mysql1 bash
-###### resetto la password per l'utente root di mysql facendo il login con la password one-time generata del container
-bash-4.2# mysql -u root -pGawLYjBYBUx3vjANyfuvez-Ixop
-mysql: [Warning] Using a password on the command line interface can be insecure.
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 17
+#### resetto la password per l'utente root di mysql facendo il login con la password one-time generata del container
+``$ docker exec -it mysql1 bash``
+>bash-4.2# mysql -u root -pGawLYjBYBUx3vjANyfuvez-Ixop
+>mysql: [Warning] Using a password on the command line interface can be insecure.
+>Welcome to the MySQL monitor.  Commands end with ; or \g.
+>Your MySQL connection id is 17
+>
+>Server version: 8.0.20
+>
+>Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+>
+>Oracle is a registered trademark of Oracle Corporation and/or its
+>affiliates. Other names may be trademarks of their respective
+>owners.
+>
+>Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+>
+>mysql> alter user 'root'@'localhost' identified by 'password';
+>Query OK, 0 rows affected (0.02 sec)
 
-Server version: 8.0.20
+>mysql>
 
-Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql> alter user 'root'@'localhost' identified by 'password';
-Query OK, 0 rows affected (0.02 sec)
-
-mysql>
-###########
-
- ### per vedere i container che non sono in running
- docker container ls -a
+### per vedere i container che non sono in running
+``$ docker container ls -a``
 
 ### proviamo ad installare diversi database anche di vesioni precedenti
  docker container run --name=mysql2 -d mysql/mysql-server
