@@ -70,7 +70,9 @@ https://docs.docker.com/get-started/
 ### ricavo l'ip del container
 ``$ docker container inspect mysql2 | grep IPAddress``
  > "IPAddress": "172.17.0.3",
+
 ``$ ping -c1 172.17.0.3``
+
 ``$ ip a``
 ---
 <code>
