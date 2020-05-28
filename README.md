@@ -8,15 +8,17 @@ sudo apt update && sudo apt upgrade -y && sudo apt install docker docker.io
 
 ### Il mio utente è nel gruppo docker?
 ``$ id``      ###serve per capire di quali gruppi facciamo parte
+
 ``uid=1000(massimo) gid=1000(massimo) gruppi=1000(massimo),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),112(lpadmin),124(sambashare),125(vboxusers),148(ubridge),149(libvirt),1001(bumblebee),1003(docker)
 ``
-### esiste il gruppo docker?
-sudo cat /etc/group
-### se esiste
-sudo usermod -aG docker $USER
-### se non esiste
-sudo groupadd docker
-sudo usermod -aG docker $USER
+### controllo se esiste il gruppo docker
+``$ sudo cat /etc/group``
+### se esiste aggiungo l'utente al gruppo
+``$ sudo usermod -aG docker $USER``
+### se non esiste, creo il gruppo ed aggiungo l'utente
+``$ sudo groupadd docker
+
+$ sudo usermod -aG docker $USER``
 
 ### verifichiamo che docker è installato e che lo possiamo lanciare
 docker info
