@@ -740,44 +740,38 @@ docker login
 ```
 ### rendo pubblica (condivido) la docker creata
 
-docker tag bulletinboard:1.0 [accaunt]/bulletinboard:1-0
+``$ docker tag bulletinboard:1.0 [accaunt]/bulletinboard:1-0``
 
-###trasferisco su dockerhub
+### trasferisco su dockerhub
 
-docker push bulletinboard:1.0 [accaunt]/bulletinboard:1-0
+``$ docker push bulletinboard:1.0 [accaunt]/bulletinboard:1-0``
 
-###installo la docker caricata du dockerhub
+### installo la docker caricata du dockerhub
 
-docker pull merlinogj/bulletinboard:1.0
+``$ docker pull merlinogj/bulletinboard:1.0``
 
 ### creo una immagine semplice partendo da nginx e cambiando la pagina index.html
-
-mkdir ah
-
-vi Dockerfile
+```
+$ mkdir ah
+$ vi Dockerfile
 
 FROM nginx:latest
 WORKDIR /usr/share/nginx/html
 COPY index.html .
 RUN apt update
 
-
-vi index.html
+$ vi index.html
 
 <!DOCTYPE html> <html> <head> <title>Welcome to Massimo!</title> <style> body { width: 35em; margin: 0 auto; font-family: Tahoma, Verdana, Arial, sans-serif; } </style> </head> <body> <h1>Welcome to Massimo!</h1> <p>If you see this page, the nginx web server is successfully installed and working. Further configuration is required.</p> <p>For online documentation and support please refer to <a href="http://nginx.org/">nginx.org</a>.<br/> Commercial support is available at <a href="http://nginx.com/">nginx.com</a>.</p> <p><em>Thank you for using nginx.</em></p> </body> </html>
 
-docker build --tag maxnignx:1.1 .
-
-docker image ls
-
-docker image ls
+$ docker build --tag maxnignx:1.1 .
+$ docker image ls
+$ docker image ls
 
 REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
-
 maxnignx                  1.1                 e1105be7f239        3 hours ago         144MB
 
-docker run -d -p 81:80 maxnignx:1.1
-
-docker tag maxnignx:1.1 merlinogj/maxnginx:1.1
-
-docker push merlinogj/maxnginx:1.1
+$ docker run -d -p 81:80 maxnignx:1.1
+$ docker tag maxnignx:1.1 merlinogj/maxnginx:1.1
+$ docker push merlinogj/maxnginx:1.1
+```
