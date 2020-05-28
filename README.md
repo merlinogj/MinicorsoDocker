@@ -126,7 +126,7 @@ https://docs.docker.com/get-started/
 > "IPAddress": "172.17.0.4",
 ### sapendo quale è l'ip possiamo vedere se il servizio web serve funziona sulla porta 80 tramite il comando curl
 ``$ curl 172.17.0.4``
-<code>
+
 > <!DOCTYPE html>
 ><html>
 ><head>
@@ -151,7 +151,7 @@ https://docs.docker.com/get-started/
 ><p><em>Thank you for using nginx.</em></p>
 ></body>
 ></html>
-</code>
+
 ### vediamo in questo tipo di container cosa gira
  docker container top web2
  UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
