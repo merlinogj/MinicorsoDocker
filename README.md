@@ -162,173 +162,218 @@ https://docs.docker.com/get-started/
 >
 >9af523f1453d        mysql/mysql-server   "/entrypoint.sh mysq…"   38 minutes ago      Up 38 minutes (healthy)   3306/tcp, 33060/tcp   mysql1
 
-##VOLUMES
+## VOLUMES
 ### andiamo a vedere se i container MySQL hanno creato i propri volumi
 ``$ docker volume ls``
+
 DRIVER              VOLUME NAME
+
 local               bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
+
 local               d72bde5c8d9d483956cdddb4026b912a7e57d5f832b15c5b00abca874de759ca
 
-###vogliamo sapere dove docker mette i files dei container
- sudo find / 2> /dev/null | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
- /var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/general_log.CSM
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/slow_log_203.sdi
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/slow_log.CSV
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/general_log_202.sdi
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/slow_log.CSM
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/general_log.CSV
-[output omitted...]
- ### per andare a vedere i files dobbiamo essere root ed il comando per diventare root è il seguente
- sudo -i
+### vogliamo sapere dove docker mette i files dei container
+``$ sudo find / 2> /dev/null | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006``
 
-###per vedere se un volume fa parte di un container usiamo l'inspect come segue
-docker container inspect mysql1 | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
+>/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
+>
+>/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data
+>
+>/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql
+>
+>/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log.CSM
+>
+>/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log_203.sdi
+>
+>/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log.CSV
+>
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log_202.sdi
+>
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log.CSM
+>
+>/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log.CSV
+>[output omitted...]
+
+### per andare a vedere i files dobbiamo essere root ed il comando per diventare root è il seguente
+``$ sudo -i``
+
+### per vedere se un volume fa parte di un container usiamo l'inspect come segue
+``$docker container inspect mysql1 | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006``
+
                  "Name": "bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006",
-                "Source": "/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data",
 
- ### dopo aver creato gli oggetti in docker questi sono i comandi per vederne alcuni di interesse
- docker container ls -a
- docker volume ls
- docker image ls
- docker network ls
- ip a
+                "Source": "/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data",
 
-###
- docker container inspect web2
- ping -c1 172.17.0.3
- sudo arp -a
+### dopo aver creato gli oggetti in docker questi sono i comandi per vederne alcuni di interesse
+``$ docker container ls -a``
 
-### Skill up - passiamo una variabile d'ambiente (environment) al container per settare la password di root di MariaDB
- docker container run -d -e "MYSQL_ROOT_PASSWORD=password" --name db1 mariadb
- docker container ls
+``$ docker volume ls``
+
+``$ docker image ls``
+
+``$ docker network ls``
+
+``$ ip a``
+
+### con il seguente comando vediamo tutta la configurazione del container web2
+
+``$ docker container inspect web2``
+
+``$ ping -c1 172.17.0.3``
+
+``$ sudo arp -a`` **con questo comando vediamo mac address table**
+
+## Skill up
+### passiamo una variabile d'ambiente (environment) al container per settare la password di root di MariaDB
+``$ docker container run -d -e "MYSQL_ROOT_PASSWORD=password" --name db1 mariadb``
+
+``$ docker container ls``
+
 ### voglio usare il servizio del container con un client mysql
- sudo apt install mysql-client
- docker container inspect db1 | grep IPAddress
-             "SecondaryIPAddresses": null,
-            "IPAddress": "172.17.0.2",
-                    "IPAddress": "172.17.0.2",
- mysql -u root -p -h 172.17.0.2
-Enter password:
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8
-Server version: 5.5.5-10.4.13-MariaDB-1:10.4.13+maria~bionic mariadb.org binary distribution
+``$ sudo apt install mysql-client``
 
-Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+``$ docker container inspect db1 | grep IPAddress``
 
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
+>"IPAddress": "172.17.0.2",
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+``$ mysql -u root -p -h 172.17.0.2``
 
-mysql> show databases;
-+--------------------+
-| Database           |
-+--------------------+
-| information_schema |
-| mysql              |
-| performance_schema |
-+--------------------+
-3 rows in set (0.01 sec)
+>Enter password:
+>Welcome to the MySQL monitor.  Commands end with ; or \g.
+>Your MySQL connection id is 8
+>Server version: 5.5.5-10.4.13-MariaDB-1:10.4.13+maria~bionic mariadb.org binary distribution
+>
+>Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+>
+>Oracle is a registered trademark of Oracle Corporation and/or its
+>affiliates. Other names may be trademarks of their respective
+>owners.
+>
+>Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+>
+>mysql> show databases;
+>+--------------------+
+>| Database           |
+>+--------------------+
+>| information_schema |
+>| mysql              |
+>| performance_schema |
+>+--------------------+
+>3 rows in set (0.01 sec)
 
-mysql>
+###  facciamo un po' di pulizia con il **prune** che libera ciò che non è utilizzato
+``$ docker container prune``
 
-###  facciamo un po' di pulizia con il prune che libera ciò che non è utilizzato
- docker container prune
- docker volume prune
- docker image prune
- docker container ls -a
+``$ docker volume prune``
 
-### ora vogliamo creare il FE che si aggancia al BE con l'IP, user e password di MariaDB
-docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -d wordpress
+``$ docker image prune``
+
+``$ docker container ls -a``
+
+### ora vogliamo creare il FrontEnd che si aggancia al BackEend con l'IP, user e password di MariaDB
+``$ docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -d wordpress``
 ### controllo che il frontend interagisca con il backend creando il DB wordpress
- mysql -u root -p -h 172.17.0.2
-mysql> show databases;
-+--------------------+
-| Database           |
-+--------------------+
-| information_schema |
-| mysql              |
-| performance_schema |
-| wordpress          |
-+--------------------+
-4 rows in set (0.00 sec)
+``$ mysql -u root -p -h 172.17.0.2``
+
+>mysql> show databases;
+>+--------------------+
+>| Database           |
+>+--------------------+
+>| information_schema |
+>| mysql              |
+>| performance_schema |
+>| wordpress          |
+>+--------------------+
+>4 rows in set (0.00 sec)
 
 ### vediamo la orte esposta dal FE
-docker container ls -a
+``$ docker container ls -a``
+
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+
 870a1740ac88        wordpress           "docker-entrypoint.s…"   6 minutes ago       Up 6 minutes        80/tcp              frontend
+
 ace04ec47218        mariadb             "docker-entrypoint.s…"   14 minutes ago      Up 14 minutes       3306/tcp            db1
+
 b512ffb058b7        nginx               "nginx -g 'daemon of…"   57 minutes ago      Up 57 minutes       80/tcp              web1
 
 ### controlliamo cosa gira dentro il container frontend
-docker container top frontend
+``$ docker container top frontend``
+
 UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+
 root                29277               29254               0                   11:18               ?                   00:00:01            apache2 -DFOREGROUND
+
 www-data            29498               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
+
 www-data            29499               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
+
 www-data            29500               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
+
 www-data            29501               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
+
 www-data            29502               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
 
-###INOLTRO delle PORT, si aggiunge "-p 80:80" nella creazione del container
+## Per l'inoltro delle PORT, si aggiunge "-p 80:80" nella creazione del container
 ### prima lo rimuoviamo e poi lo ricreiamo con la dichiarazione della porta
-docker container rm -f frontend
-docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -d -p 80:80 wordpress
+``$ docker container rm -f frontend``
+
+``$ docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -d -p 80:80 wordpress``
 ### altro esempio di come si pubblica una porta 80 sulla porta 81 dell'host
-docker container run --name web1 -p 81:80 -d nginx
+``$ docker container run --name web1 -p 81:80 -d nginx``
 
-###VOLUMES
+## VOLUMES
 ### voglio creare un volume "persistente" di nome "massimo" condiviso da più container
-docker volume create massimo
-docker volume ls
-docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -v massimo:/var/www/html -d -p 80:80 wordpress
-docker container run -v massimo:/html -it --rm busybox
+``$ docker volume create massimo``
 
-###voglio creare un volume condiviso per editare la pagina di default di nginx
-docker volume create nginx
-docker container rm -f web1
-docker container run -d --name web1 -v nginx:/usr/share/nginx/html nginx
-docker container run -v nginx:/html -it --rm busybox
-/ # cd html/
-/html # ls
-50x.html    index.html
-/html # cat index.html
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to Massimo!</title>
-<style>
-    body {
-        width: 35em;
-        margin: 0 auto;
-        font-family: Tahoma, Verdana, Arial, sans-serif;
-    }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
+``$ docker volume ls``
 
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
+``$ docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -v massimo:/var/www/html -d -p 80:80 wordpress``
 
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
-/html #
-vi index.html
+``$ docker container run -v massimo:/html -it --rm busybox``
 
+### Creo un volume condiviso per editare la pagina di default di nginx
+``$ docker volume create nginx``
 
+``$ docker container rm -f web1``
 
-## docker-compose mi aiuta a risparmiare tempo e mi introduce nell'"Infrastructure as a code"
-vi wp.yaml
+``$ docker container run -d --name web1 -v nginx:/usr/share/nginx/html nginx``
+
+``$ docker container run -v nginx:/html -it --rm busybox``
+>/ # cd html/
+>/html # ls
+>50x.html    index.html
+>/html # cat index.html
+><!DOCTYPE html>
+><html>
+><head>
+><title>Welcome to Massimo!</title>
+><style>
+>    body {
+>        width: 35em;
+>        margin: 0 auto;
+>        font-family: Tahoma, Verdana, Arial, sans-serif;
+>    }
+></style>
+></head>
+><body>
+><h1>Welcome to nginx!</h1>
+><p>If you see this page, the nginx web server is successfully installed and
+>working. Further configuration is required.</p>
+>
+><p>For online documentation and support please refer to
+><a href="http://nginx.org/">nginx.org</a>.<br/>
+>Commercial support is available at
+><a href="http://nginx.com/">nginx.com</a>.</p>
+>
+><p><em>Thank you for using nginx.</em></p>
+></body>
+></html>
+>/html #
+>vi index.html
+
+### docker-compose mi aiuta a risparmiare tempo e mi introduce nell'"Infrastructure as a code"
+``$ vi wp.yaml``
 version: '2.0'
 
 services:
@@ -361,14 +406,16 @@ volumes:
   wordpress:
   db:
 
-
 ### abbiamo bisogno di installare docker compose
- sudo apt install docker-compose
- docker-compose -f wp.yaml up -d
-docker container ls
-docker network ls
-docker volume ls
+``$ sudo apt install -y docker-compose``
 
+``$ docker-compose -f wp.yaml up -d``
+
+docker container ls
+
+docker network ls
+
+docker volume ls
 
 vi rocket.yaml
 version: '2'
