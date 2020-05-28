@@ -411,13 +411,14 @@ volumes:
 
 ``$ docker-compose -f wp.yaml up -d``
 
-docker container ls
+``$ docker container ls``
 
-docker network ls
+``$ docker network ls``
 
-docker volume ls
+``$ docker volume ls``
 
-vi rocket.yaml
+``$ vi rocket.yaml``
+
 version: '2'
 
 services:
@@ -469,8 +470,8 @@ services:
         "for i in `seq 1 30`; do
           mongo mongo/rocketchat --eval \"
             rs.initiate({
-              _id: 'rs0',
-              members: [ { _id: 0, host: 'localhost:27017' } ]})\" &&
+              \_id: 'rs0',
+              members: [ { \_id: 0, host: 'localhost:27017' } ]})\" &&
           s=$$? && break || s=$$?;
           echo \"Tried $$i times. Waiting 5 secs...\";
           sleep 5;
@@ -521,29 +522,42 @@ services:
   #  volumes:
   #    - /var/run/docker.sock:/var/run/docker.sock
 
-docker-compose -f rocket.yaml up -d
-docker-compose -f rocket.yaml logs
+``$ docker-compose -f rocket.yaml up -d``
 
-###NETWORK
+``$ docker-compose -f rocket.yaml logs``
+
+## NETWORK
 ### voglio vedere le network di docker la docker0 è la bridged, la host si riferisce all'ip dell'host
-docker network ls
+``$ docker network ls``
+
+
 NETWORK ID          NAME                DRIVER              SCOPE
+
 171d7f63e4a0        bridge              bridge              local
+
 626776a1047d        host                host                local
+
 517888c34e3a        none                null                local
 
-###voglio crere una network differente per isolare alcuni container
-docker network create newnet1
-docker network ls
+### voglio crere una network differente per isolare alcuni container
+``$ docker network create newnet1``
+
+``$ docker network ls``
+
 NETWORK ID          NAME                DRIVER              SCOPE
+
 171d7f63e4a0        bridge              bridge              local
+
 626776a1047d        host                host                local
+
 76759826efad        newnet1             bridge              local
+
 517888c34e3a        none                null                local
 
+``$ docker run -it  --network newnet1 -v nginx:/html --rm busybox``
 
-docker run -it  --network newnet1 -v nginx:/html --rm busybox
 / # ifconfig
+
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:15:00:02  
           inet addr:172.21.0.2  Bcast:172.21.255.255  Mask:255.255.0.0
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
@@ -561,31 +575,48 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 / # netstat -rn
+
 Kernel IP routing table
+
 Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+
 0.0.0.0         172.21.0.1      0.0.0.0         UG        0 0          0 eth0
+
 172.21.0.0      0.0.0.0         255.255.0.0     U         0 0          0 eth0
+
 / # ping -c1 8.8.8.8
+
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
+
 64 bytes from 8.8.8.8: seq=0 ttl=127 time=21.327 ms
 
 --- 8.8.8.8 ping statistics ---
+
 1 packets transmitted, 1 packets received, 0% packet loss
+
 round-trip min/avg/max = 21.327/21.327/21.327 ms
+
 / # ping -c1 www.google.it
+
 PING www.google.it (216.58.206.35): 56 data bytes
+
 64 bytes from 216.58.206.35: seq=0 ttl=127 time=13.114 ms
 
 --- www.google.it ping statistics ---
+
 1 packets transmitted, 1 packets received, 0% packet loss
+
 round-trip min/avg/max = 13.114/13.114/13.114 ms
+
 / # hostname
+
 dc747114239f
 
-###proviamo a lanciare un container nella rete host
- docker run -it  --network host -v nginx:/html --rm busybox
+### proviamo a lanciare un container nella rete host
+``$ docker run -it  --network host -v nginx:/html --rm busybox``
 
 / # ifconfig
+
 br-76759826efad Link encap:Ethernet  HWaddr 02:42:08:F7:90:D9  
           inet addr:172.21.0.1  Bcast:172.21.255.255  Mask:255.255.0.0
           inet6 addr: fe80::42:8ff:fef7:90d9/64 Scope:Link
@@ -631,19 +662,28 @@ virbr0    Link encap:Ethernet  HWaddr 52:54:00:6B:52:2A
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 / # netstat -rn
+
 Kernel IP routing table
+
 Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+
 0.0.0.0         172.16.16.2     0.0.0.0         UG        0 0          0 enp0s3
+
 172.16.16.0     0.0.0.0         255.255.255.0   U         0 0          0 enp0s3
+
 172.17.0.0      0.0.0.0         255.255.0.0     U         0 0          0 docker0
+
 172.21.0.0      0.0.0.0         255.255.0.0     U         0 0          0 br-76759826efad
+
 192.168.122.0   0.0.0.0         255.255.255.0   U         0 0          0 virbr0
+
 / # hostname
+
 NFServer
 
-###nginx da file yaml e busybox
+### nginx da file yaml e busybox
 
-### file nginx.yaml
+``$ vi nginx.yaml``
 
 version: '2.0'
 
@@ -665,13 +705,18 @@ services:
 volumes:
   nginx:
 
-###comandi per busybox
+### comandi per busybox
 
-docker container run -it -v annaleda_nginx:/html --rm busybox
+``$ docker container run -it -v annaleda_nginx:/html --rm busybox``
+
 / # cd html
+
 /html # ls
+
 50x.html    index.html
+
 /html # cat index.html
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -697,32 +742,52 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
-###--provare vi index.html
+
+### provare vi index.html
 /html # echo 'ciao vincenzo giovanni ettore andre arturo'>>index.html
+
 /html # exit
 
 
 ### Build and run your image
 git clone https://github.com/dockersamples/node-bulletin-board
+
 cd node-bulletin-board/bulletin-board-app
+
 ls
+
 cat Dockerfile
+
 docker build --tag bulletinboar:1.0 .
+
 ls
+
 docker image ls
+
 docker container run --network host -d bulletinboard:1.0
+
 docker container ls
+
 docker login
-###rendo pubblica (condivido) la docker creata
+
+### rendo pubblica (condivido) la docker creata
+
 docker tag bulletinboard:1.0 [accaunt]/bulletinboard:1-0
+
 ###trasferisco su dockerhub
+
 docker push bulletinboard:1.0 [accaunt]/bulletinboard:1-0
+
 ###installo la docker caricata du dockerhub
+
 docker pull merlinogj/bulletinboard:1.0
 
 ### creo una immagine semplice partendo da nginx e cambiando la pagina index.html
+
 mkdir ah
+
 vi Dockerfile
+
 FROM nginx:latest
 WORKDIR /usr/share/nginx/html
 COPY index.html .
@@ -730,14 +795,21 @@ RUN apt update
 
 
 vi index.html
+
 <!DOCTYPE html> <html> <head> <title>Welcome to Massimo!</title> <style> body { width: 35em; margin: 0 auto; font-family: Tahoma, Verdana, Arial, sans-serif; } </style> </head> <body> <h1>Welcome to Massimo!</h1> <p>If you see this page, the nginx web server is successfully installed and working. Further configuration is required.</p> <p>For online documentation and support please refer to <a href="http://nginx.org/">nginx.org</a>.<br/> Commercial support is available at <a href="http://nginx.com/">nginx.com</a>.</p> <p><em>Thank you for using nginx.</em></p> </body> </html>
 
 docker build --tag maxnignx:1.1 .
+
 docker image ls
+
 docker image ls
+
 REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
+
 maxnignx                  1.1                 e1105be7f239        3 hours ago         144MB
 
 docker run -d -p 81:80 maxnignx:1.1
+
 docker tag maxnignx:1.1 merlinogj/maxnginx:1.1
+
 docker push merlinogj/maxnginx:1.1
