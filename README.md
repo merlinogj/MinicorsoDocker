@@ -374,61 +374,39 @@ www-data            29502               29277               0                   
 
 ### docker-compose mi aiuta a risparmiare tempo e mi introduce nell'"Infrastructure as a code"
 ``$ vi wp.yaml``
+```
+version: '2.0'
 
->version: '2.0'
->
->services:
->
->  wordpress:
+services:
 
->    image: wordpress
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
 
->    restart: always
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
 
->    ports:
-
->      - 80:80
-
->    environment:
-
->      WORDPRESS_DB_HOST: db
-
->      WORDPRESS_DB_USER: exampleuser
-
->      WORDPRESS_DB_PASSWORD: examplepass
-
->      WORDPRESS_DB_NAME: exampledb
-
->    volumes:
-
->      - wordpress:/var/www/html
->      
->  db:
-
->    image: mysql:5.7
-
->    restart: always
-
->    environment:
-
->      MYSQL_DATABASE: exampledb
-
->      MYSQL_USER: exampleuser
-
->      MYSQL_PASSWORD: examplepass
-
->      MYSQL_RANDOM_ROOT_PASSWORD: '1'
-
->    volumes:
-
->      - db:/var/lib/mysql
->
->volumes:
-
->  wordpress:
-
->  db:
-
+volumes:
+  wordpress:
+  db:
+```
 ### abbiamo bisogno di installare docker compose
 ``$ sudo apt install -y docker-compose``
 
