@@ -16,22 +16,22 @@ sudo apt update && sudo apt upgrade -y && sudo apt install docker docker.io
 ### se esiste aggiungo l'utente al gruppo
 ``$ sudo usermod -aG docker $USER``
 ### se non esiste, creo il gruppo ed aggiungo l'utente
-``$ sudo groupadd docker
+``$ sudo groupadd docker``
 
-$ sudo usermod -aG docker $USER``
+``$ sudo usermod -aG docker $USER``
 
 ### verifichiamo che docker è installato e che lo possiamo lanciare
-docker info
+``$ docker info``
 
 ### creiamo il nostro account su https://hub.docker.com e lo usiamo per fare il docker login
-docker login
+``$ docker login``
 
-
+##Esercizio 01
 ### creiamo il nostro primo container, creiamo un DB
-docker run --name=mysql1 -d mysql/mysql-server
-docker container ls
-### voglio vedere i log di installazione in cui vedrò la password settatta automaticamente
-docker container logs mysql1 | grep GENERATED
+``$ docker run --name=mysql1 -d mysql/mysql-server``
+``$ docker container ls``
+### vediamo i "logs" di installazione in cui compare la password creata automaticamente
+``$ docker container logs mysql1 | grep GENERATED``
 [Entrypoint] GENERATED ROOT PASSWORD: GawLYjBYBUx3vjANyfuvez-Ixop
 
 docker exec -it mysql1 bash
