@@ -84,13 +84,15 @@ https://docs.docker.com/get-started/
       valid_lft forever preferred_lft forever
       inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
-2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+>
+>2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 08:00:27:f7:2a:92 brd ff:ff:ff:ff:ff:ff
     inet 172.16.16.95/24 brd 172.16.16.255 scope global enp0s3
        valid_lft forever preferred_lft forever
     inet6 fe80::a00:27ff:fef7:2a92/64 scope link
        valid_lft forever preferred_lft forever
-4: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+>
+>4: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
     link/ether 02:42:95:2c:54:86 brd ff:ff:ff:ff:ff:ff
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
        valid_lft forever preferred_lft forever
