@@ -67,16 +67,16 @@ https://docs.docker.com/get-started/
 ``$ docker container ls``
 ### Controlliamo se mysql2 ha la stessa password generata di mysql1
 ``$ docker conatainer logs mysql2  | grep GENERATED``
-> [Entrypoint] GENERATED ROOT PASSWORD: !AwfEBC0vYHIGExUc2ehKUbumef
+> ``[Entrypoint] GENERATED ROOT PASSWORD: !AwfEBC0vYHIGExUc2ehKUbumef``
 
 ### ricavo l'ip del container
 ``$ docker container inspect mysql2 | grep IPAddress``
- > "IPAddress": "172.17.0.3",
+ > ``"IPAddress": "172.17.0.3",``
 
 ``$ ping -c1 172.17.0.3``
 
 ``$ ip a``
----
+
 <code>
  1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
   link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
