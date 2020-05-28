@@ -26,7 +26,7 @@ https://docs.docker.com/get-started/
 ### creiamo il nostro account su https://hub.docker.com e lo usiamo per fare il docker login
 ``$ docker login``
 
-##Esercizio 01
+## Esercizio 01
 ### creiamo il nostro primo container, creiamo un DB
 ``$ docker run --name=mysql1 -d mysql/mysql-server``
 ``$ docker container ls``
@@ -53,26 +53,26 @@ https://docs.docker.com/get-started/
 >
 >mysql> alter user 'root'@'localhost' identified by 'password';
 >Query OK, 0 rows affected (0.02 sec)
-
+>
 >mysql>
 
-### per vedere i container che non sono in running
+### Questo il comando per vedere i container che non sono in running
 ``$ docker container ls -a``
 
 ### proviamo ad installare diversi database anche di vesioni precedenti
- docker container run --name=mysql2 -d mysql/mysql-server
- docker container run --name=mysql5.7 -d mysql/mysql-server:5.7
- docker container ls
-### mysql2 ha la stessa passwor generata di mysql1?
- docker conatainer logs mysql2  | grep GENERATED
- [Entrypoint] GENERATED ROOT PASSWORD: !AwfEBC0vYHIGExUc2ehKUbumef
+``$ docker container run --name=mysql2 -d mysql/mysql-server``
+``$ docker container run --name=mysql5.7 -d mysql/mysql-server:5.7``
+``$ docker container ls``
+### Controlliamo se mysql2 ha la stessa password generata di mysql1
+``$ docker conatainer logs mysql2  | grep GENERATED``
+> [Entrypoint] GENERATED ROOT PASSWORD: !AwfEBC0vYHIGExUc2ehKUbumef
 
-### voglio sapere l'ip del container
- docker container inspect mysql2 | grep IPAddress
+### ricavo l'ip del container
+``$ docker container inspect mysql2 | grep IPAddress``
  > "IPAddress": "172.17.0.3",
- ping -c1 172.17.0.3
- ip a
-####
+``$ ping -c1 172.17.0.3``
+``$ ip a``
+---
  1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
@@ -91,7 +91,7 @@ https://docs.docker.com/get-started/
        valid_lft forever preferred_lft forever
     inet6 fe80::42:95ff:fe2c:5486/64 scope link
        valid_lft forever preferred_lft forever
-####
+---
 
  ###voglio vedere i processi che girano dentro il container
  docker container top mysql1
