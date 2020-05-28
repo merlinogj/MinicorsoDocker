@@ -273,47 +273,41 @@ local               d72bde5c8d9d483956cdddb4026b912a7e57d5f832b15c5b00abca874de7
 ### ora vogliamo creare il FrontEnd che si aggancia al BackEend con l'IP, user e password di MariaDB
 ``$ docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -d wordpress``
 ### controllo che il frontend interagisca con il backend creando il DB wordpress
-``$ mysql -u root -p -h 172.17.0.2``
+```
+$ mysql -u root -p -h 172.17.0.2
 
->mysql> show databases;
->+--------------------+
->| Database           |
->+--------------------+
->| information_schema |
->| mysql              |
->| performance_schema |
->| wordpress          |
->+--------------------+
->4 rows in set (0.00 sec)
-
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| wordpress          |
++--------------------+
+4 rows in set (0.00 sec)
+```
 ### vediamo la orte esposta dal FE
-``$ docker container ls -a``
+```
+$ docker container ls -a
 
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
-
 870a1740ac88        wordpress           "docker-entrypoint.s…"   6 minutes ago       Up 6 minutes        80/tcp              frontend
-
 ace04ec47218        mariadb             "docker-entrypoint.s…"   14 minutes ago      Up 14 minutes       3306/tcp            db1
-
 b512ffb058b7        nginx               "nginx -g 'daemon of…"   57 minutes ago      Up 57 minutes       80/tcp              web1
-
+```
 ### controlliamo cosa gira dentro il container frontend
-``$ docker container top frontend``
+```
+$ docker container top frontend
 
 UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
-
 root                29277               29254               0                   11:18               ?                   00:00:01            apache2 -DFOREGROUND
-
 www-data            29498               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
-
 www-data            29499               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
-
 www-data            29500               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
-
 www-data            29501               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
-
 www-data            29502               29277               0                   11:18               ?                   00:00:00            apache2 -DFOREGROUND
-
+```
 ## Per l'inoltro delle PORT, si aggiunge "-p 80:80" nella creazione del container
 ### prima lo rimuoviamo e poi lo ricreiamo con la dichiarazione della porta
 ``$ docker container rm -f frontend``
@@ -333,45 +327,43 @@ www-data            29502               29277               0                   
 ``$ docker container run -v massimo:/html -it --rm busybox``
 
 ### Creo un volume condiviso per editare la pagina di default di nginx
-``$ docker volume create nginx``
+```
+$ docker volume create nginx``
+$ docker container rm -f web1``
+$ docker container run -d --name web1 -v nginx:/usr/share/nginx/html nginx``
+$ docker container run -v nginx:/html -it --rm busybox``
+/ # cd html/
+/html # ls
+50x.html    index.html
+/html # cat index.html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to Massimo!</title>
+<style>
+    body {
+      width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
 
-``$ docker container rm -f web1``
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
 
-``$ docker container run -d --name web1 -v nginx:/usr/share/nginx/html nginx``
-
-``$ docker container run -v nginx:/html -it --rm busybox``
->/ # cd html/
->/html # ls
->50x.html    index.html
->/html # cat index.html
-><!DOCTYPE html>
-><html>
-><head>
-><title>Welcome to Massimo!</title>
-><style>
->    body {
->        width: 35em;
->        margin: 0 auto;
->        font-family: Tahoma, Verdana, Arial, sans-serif;
->    }
-></style>
-></head>
-><body>
-><h1>Welcome to nginx!</h1>
-><p>If you see this page, the nginx web server is successfully installed and
->working. Further configuration is required.</p>
->
-><p>For online documentation and support please refer to
-><a href="http://nginx.org/">nginx.org</a>.<br/>
->Commercial support is available at
-><a href="http://nginx.com/">nginx.com</a>.</p>
->
-><p><em>Thank you for using nginx.</em></p>
-></body>
-></html>
->/html #
->vi index.html
-
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+/html #
+vi index.html
+```
 ### docker-compose mi aiuta a risparmiare tempo e mi introduce nell'"Infrastructure as a code"
 ``$ vi wp.yaml``
 ```
