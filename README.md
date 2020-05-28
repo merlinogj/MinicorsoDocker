@@ -531,30 +531,23 @@ services:
 ### voglio vedere le network di docker la docker0 è la bridged, la host si riferisce all'ip dell'host
 ``$ docker network ls``
 
-
+```
 NETWORK ID          NAME                DRIVER              SCOPE
-
 171d7f63e4a0        bridge              bridge              local
-
 626776a1047d        host                host                local
-
 517888c34e3a        none                null                local
-
+```
 ### voglio crere una network differente per isolare alcuni container
 ``$ docker network create newnet1``
 
 ``$ docker network ls``
-
+```
 NETWORK ID          NAME                DRIVER              SCOPE
-
 171d7f63e4a0        bridge              bridge              local
-
 626776a1047d        host                host                local
-
 76759826efad        newnet1             bridge              local
-
 517888c34e3a        none                null                local
-
+```
 ``$ docker run -it  --network newnet1 -v nginx:/html --rm busybox``
 
 / # ifconfig
