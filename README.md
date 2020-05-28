@@ -61,7 +61,9 @@ https://docs.docker.com/get-started/
 
 ### proviamo ad installare diversi database anche di vesioni precedenti
 ``$ docker container run --name=mysql2 -d mysql/mysql-server``
+
 ``$ docker container run --name=mysql5.7 -d mysql/mysql-server:5.7``
+
 ``$ docker container ls``
 ### Controlliamo se mysql2 ha la stessa password generata di mysql1
 ``$ docker conatainer logs mysql2  | grep GENERATED``
