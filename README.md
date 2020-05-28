@@ -1,11 +1,12 @@
+# Intro
+## Minicorso Docker
+
 https://docs.docker.com/get-started/
 
-
 ### installa docker dentro un sistema linux ubuntu 18.04
-sudo apt update && sudo apt upgrade -y
-sudo apt install docker docker.io
+sudo apt update && sudo apt upgrade -y && sudo apt install docker docker.io
 
-### ? sono nel gruppo docker?
+### Il mio utente è nel gruppo docker?
 id       ###serve per capire di quali gruppi facciamo parte
 ### esiste il gruppo docker?
 sudo cat /etc/group
