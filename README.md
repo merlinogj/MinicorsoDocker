@@ -77,7 +77,7 @@ https://docs.docker.com/get-started/
 
 ``$ ip a``
 
-<code>
+
  >1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
   link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
   inet 127.0.0.1/8 scope host lo
@@ -96,7 +96,6 @@ https://docs.docker.com/get-started/
        valid_lft forever preferred_lft forever
     inet6 fe80::42:95ff:fe2c:5486/64 scope link
        valid_lft forever preferred_lft forever
-</code>
 
  ### voglio vedere i processi che girano dentro il container
  docker container top mysql1
