@@ -419,7 +419,7 @@ volumes:
 ``$ docker volume ls``
 
 ``$ vi rocket.yaml``
-
+```
 version: '2'
 
 services:
@@ -522,7 +522,7 @@ services:
   #    - 443:443
   #  volumes:
   #    - /var/run/docker.sock:/var/run/docker.sock
-
+```
 ``$ docker-compose -f rocket.yaml up -d``
 
 ``$ docker-compose -f rocket.yaml logs``
