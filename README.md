@@ -87,7 +87,7 @@ https://docs.docker.com/get-started/
 >
 >2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 08:00:27:f7:2a:92 brd ff:ff:ff:ff:ff:ff
-    inet *172.16.16.95/24* brd 172.16.16.255 scope global enp0s3
+    inet **172.16.16.95/24** brd 172.16.16.255 scope global enp0s3
        valid_lft forever preferred_lft forever
     inet6 fe80::a00:27ff:fef7:2a92/64 scope link
        valid_lft forever preferred_lft forever
@@ -105,23 +105,25 @@ https://docs.docker.com/get-started/
  UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
 
 27                  20372               20324               1                   09:57               ?                   00:00:13            mysqld --init-file=/var/lib/mysql-files/2AZpaJenaI
+
 ``$ docker container top mysql2``
 
  UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
 
 27                  21288               21263               1                   10:09               ?                   00:00:07            mysqld --init-file=/var/lib/mysql-files/Qmit2GAWht
 
-### proviamo a lanciare container con contenuto differente, tipo un frontend
- docker container run --name=web1 -d nginx
- docker container run --name=web2 -d nginx
+### proviamo a lanciare container con applicativi differenti, tipo un frontend nginx
+``$ docker container run --name=web1 -d nginx``
 
- ### i container possono essere stoppati o cancellati, se faccio stop posso fare lo start, se cancello con rm il container è perduto
- docker container stop web2
- docker container start web2
- docker  container inspect web2 | grep IPAddress
- "IPAddress": "172.17.0.4",
+``$ docker container run --name=web2 -d nginx``
+
+### i container possono essere stoppati o cancellati, se faccio stop posso fare lo start, se cancello con rm il container è perduto
+``$ docker container stop web2``
+``$ docker container start web2``
+``$ docker  container inspect web2 | grep IPAddress``
+> "IPAddress": "172.17.0.4",
 ### sapendo quale è l'ip possiamo vedere se il servizio web serve funziona sulla porta 80 tramite il comando curl
- curl 172.17.0.4
+``$ curl 172.17.0.4``
  <!DOCTYPE html>
 <html>
 <head>
