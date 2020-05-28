@@ -3,16 +3,16 @@
 
 https://docs.docker.com/get-started/
 
-### installa docker dentro un sistema linux ubuntu 18.04
+### installa docker nel sistema linux ubuntu 18.04
 sudo apt update && sudo apt upgrade -y && sudo apt install docker docker.io
 
 ### Il mio utente è nel gruppo docker?
-id       ###serve per capire di quali gruppi facciamo parte
+``$ id``      ###serve per capire di quali gruppi facciamo parte
 ### esiste il gruppo docker?
 sudo cat /etc/group
 ### se esiste
 sudo usermod -aG docker $USER
-### se non esiste 
+### se non esiste
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
@@ -50,9 +50,9 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 mysql> alter user 'root'@'localhost' identified by 'password';
 Query OK, 0 rows affected (0.02 sec)
 
-mysql> 
+mysql>
 ###########
- 
+
  ### per vedere i container che non sono in running
  docker container ls -a
 
@@ -74,22 +74,22 @@ mysql>
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host 
+    inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
 2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 08:00:27:f7:2a:92 brd ff:ff:ff:ff:ff:ff
     inet 172.16.16.95/24 brd 172.16.16.255 scope global enp0s3
        valid_lft forever preferred_lft forever
-    inet6 fe80::a00:27ff:fef7:2a92/64 scope link 
+    inet6 fe80::a00:27ff:fef7:2a92/64 scope link
        valid_lft forever preferred_lft forever
-4: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+4: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
     link/ether 02:42:95:2c:54:86 brd ff:ff:ff:ff:ff:ff
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
        valid_lft forever preferred_lft forever
-    inet6 fe80::42:95ff:fe2c:5486/64 scope link 
+    inet6 fe80::42:95ff:fe2c:5486/64 scope link
        valid_lft forever preferred_lft forever
 ####
- 
+
  ###voglio vedere i processi che girano dentro il container
  docker container top mysql1
  UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
@@ -101,13 +101,13 @@ mysql>
 ### proviamo a lanciare container con contenuto differente, tipo un frontend
  docker container run --name=web1 -d nginx
  docker container run --name=web2 -d nginx
- 
+
  ### i container possono essere stoppati o cancellati, se faccio stop posso fare lo start, se cancello con rm il container è perduto
  docker container stop web2
  docker container start web2
  docker  container inspect web2 | grep IPAddress
  "IPAddress": "172.17.0.4",
-### sapendo quale è l'ip possiamo vedere se il servizio web serve funziona sulla porta 80 tramite il comando curl 
+### sapendo quale è l'ip possiamo vedere se il servizio web serve funziona sulla porta 80 tramite il comando curl
  curl 172.17.0.4
  <!DOCTYPE html>
 <html>
@@ -169,7 +169,7 @@ local               d72bde5c8d9d483956cdddb4026b912a7e57d5f832b15c5b00abca874de7
 [output omitted...]
  ### per andare a vedere i files dobbiamo essere root ed il comando per diventare root è il seguente
  sudo -i
- 
+
 ###per vedere se un volume fa parte di un container usiamo l'inspect come segue
 docker container inspect mysql1 | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
                  "Name": "bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006",
@@ -181,14 +181,14 @@ docker container inspect mysql1 | grep bc0fb476d54e21490b3b6bbcda6eb348768f70831
  docker image ls
  docker network ls
  ip a
- 
+
 ###
  docker container inspect web2
  ping -c1 172.17.0.3
  sudo arp -a
 
 ### Skill up - passiamo una variabile d'ambiente (environment) al container per settare la password di root di MariaDB
- docker container run -d -e "MYSQL_ROOT_PASSWORD=password" --name db1 mariadb 
+ docker container run -d -e "MYSQL_ROOT_PASSWORD=password" --name db1 mariadb
  docker container ls
 ### voglio usare il servizio del container con un client mysql
  sudo apt install mysql-client
@@ -197,7 +197,7 @@ docker container inspect mysql1 | grep bc0fb476d54e21490b3b6bbcda6eb348768f70831
             "IPAddress": "172.17.0.2",
                     "IPAddress": "172.17.0.2",
  mysql -u root -p -h 172.17.0.2
-Enter password: 
+Enter password:
 Welcome to the MySQL monitor.  Commands end with ; or \g.
 Your MySQL connection id is 8
 Server version: 5.5.5-10.4.13-MariaDB-1:10.4.13+maria~bionic mariadb.org binary distribution
@@ -220,16 +220,16 @@ mysql> show databases;
 +--------------------+
 3 rows in set (0.01 sec)
 
-mysql> 
+mysql>
 
 ###  facciamo un po' di pulizia con il prune che libera ciò che non è utilizzato
  docker container prune
  docker volume prune
  docker image prune
  docker container ls -a
- 
+
 ### ora vogliamo creare il FE che si aggancia al BE con l'IP, user e password di MariaDB
-docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -d wordpress 
+docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -d wordpress
 ### controllo che il frontend interagisca con il backend creando il DB wordpress
  mysql -u root -p -h 172.17.0.2
 mysql> show databases;
@@ -282,7 +282,7 @@ docker container run -v nginx:/html -it --rm busybox
 / # cd html/
 /html # ls
 50x.html    index.html
-/html # cat index.html 
+/html # cat index.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -308,7 +308,7 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
-/html # 
+/html #
 vi index.html
 
 
@@ -488,7 +488,7 @@ eth0      Link encap:Ethernet  HWaddr 02:42:AC:15:00:02
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:14 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:1156 (1.1 KiB)  TX bytes:0 (0.0 B)
 
 lo        Link encap:Local Loopback  
@@ -496,7 +496,7 @@ lo        Link encap:Local Loopback
           UP LOOPBACK RUNNING  MTU:65536  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1 
+          collisions:0 txqueuelen:1
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 / # netstat -rn
@@ -531,7 +531,7 @@ br-76759826efad Link encap:Ethernet  HWaddr 02:42:08:F7:90:D9
           UP BROADCAST MULTICAST  MTU:1500  Metric:1
           RX packets:6 errors:0 dropped:0 overruns:0 frame:0
           TX packets:14 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:342 (342.0 B)  TX bytes:1118 (1.0 KiB)
 
 docker0   Link encap:Ethernet  HWaddr 02:42:95:2C:54:86  
@@ -540,7 +540,7 @@ docker0   Link encap:Ethernet  HWaddr 02:42:95:2C:54:86
           UP BROADCAST MULTICAST  MTU:1500  Metric:1
           RX packets:2726 errors:0 dropped:0 overruns:0 frame:0
           TX packets:3078 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:3201045 (3.0 MiB)  TX bytes:16402091 (15.6 MiB)
 
 enp0s3    Link encap:Ethernet  HWaddr 08:00:27:F7:2A:92  
@@ -549,7 +549,7 @@ enp0s3    Link encap:Ethernet  HWaddr 08:00:27:F7:2A:92
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:1845604 errors:0 dropped:0 overruns:0 frame:0
           TX packets:209457 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:2335248803 (2.1 GiB)  TX bytes:33265302 (31.7 MiB)
 
 lo        Link encap:Local Loopback  
@@ -558,7 +558,7 @@ lo        Link encap:Local Loopback
           UP LOOPBACK RUNNING  MTU:65536  Metric:1
           RX packets:172 errors:0 dropped:0 overruns:0 frame:0
           TX packets:172 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1 
+          collisions:0 txqueuelen:1
           RX bytes:13404 (13.0 KiB)  TX bytes:13404 (13.0 KiB)
 
 virbr0    Link encap:Ethernet  HWaddr 52:54:00:6B:52:2A  
@@ -566,7 +566,7 @@ virbr0    Link encap:Ethernet  HWaddr 52:54:00:6B:52:2A
           UP BROADCAST MULTICAST  MTU:1500  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 / # netstat -rn
@@ -669,7 +669,7 @@ RUN apt update
 
 
 vi index.html
-<!DOCTYPE html> <html> <head> <title>Welcome to Massimo!</title> <style> body { width: 35em; margin: 0 auto; font-family: Tahoma, Verdana, Arial, sans-serif; } </style> </head> <body> <h1>Welcome to Massimo!</h1> <p>If you see this page, the nginx web server is successfully installed and working. Further configuration is required.</p> <p>For online documentation and support please refer to <a href="http://nginx.org/">nginx.org</a>.<br/> Commercial support is available at <a href="http://nginx.com/">nginx.com</a>.</p> <p><em>Thank you for using nginx.</em></p> </body> </html> 
+<!DOCTYPE html> <html> <head> <title>Welcome to Massimo!</title> <style> body { width: 35em; margin: 0 auto; font-family: Tahoma, Verdana, Arial, sans-serif; } </style> </head> <body> <h1>Welcome to Massimo!</h1> <p>If you see this page, the nginx web server is successfully installed and working. Further configuration is required.</p> <p>For online documentation and support please refer to <a href="http://nginx.org/">nginx.org</a>.<br/> Commercial support is available at <a href="http://nginx.com/">nginx.com</a>.</p> <p><em>Thank you for using nginx.</em></p> </body> </html>
 
 docker build --tag maxnignx:1.1 .
 docker image ls
