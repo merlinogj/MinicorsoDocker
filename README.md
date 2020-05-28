@@ -142,17 +142,19 @@ https://docs.docker.com/get-started/
 ></html>
 
 ### vediamo in questo tipo di container cosa gira
- docker container top web2
- UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
-root                23605               23576               0                   10:26               ?                   00:00:00            nginx: master process nginx -g daemon off;
-systemd+            23635               23605               0                   10:26               ?                   00:00:00            nginx: worker process
+``$ docker container top web2``
+
+> UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+>root                23605               23576               0                   10:26               ?                   00:00:00            nginx: master process nginx -g daemon off;
+>systemd+            23635               23605               0                   10:26               ?                   00:00:00            nginx: worker process
+
 ### con "docker container ls" vediamo anche le porte esposte dal container che differiscono per tipologia
-docker container ls
-CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS                    PORTS                 NAMES
-b512ffb058b7        nginx                "nginx -g 'daemon of…"   7 minutes ago       Up 7 minutes              80/tcp                web1
-214689ef3c60        nginx                "nginx -g 'daemon of…"   8 minutes ago       Up 8 minutes              80/tcp                web2
-70870e6db10f        mysql/mysql-server   "/entrypoint.sh mysq…"   25 minutes ago      Up 25 minutes (healthy)   3306/tcp, 33060/tcp   mysql2
-9af523f1453d        mysql/mysql-server   "/entrypoint.sh mysq…"   38 minutes ago      Up 38 minutes (healthy)   3306/tcp, 33060/tcp   mysql1
+``$ docker container ls``
+>CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS                    PORTS                 NAMES
+>b512ffb058b7        nginx                "nginx -g 'daemon of…"   7 minutes ago       Up 7 minutes              80/tcp                web1
+>214689ef3c60        nginx                "nginx -g 'daemon of…"   8 minutes ago       Up 8 minutes              80/tcp                web2
+>70870e6db10f        mysql/mysql-server   "/entrypoint.sh mysq…"   25 minutes ago      Up 25 minutes (healthy)   3306/tcp, 33060/tcp   mysql2
+>9af523f1453d        mysql/mysql-server   "/entrypoint.sh mysq…"   38 minutes ago      Up 38 minutes (healthy)   3306/tcp, 33060/tcp   mysql1
 
  ###VOLUMES
  ### andiamo a vedere se i container MySQL hanno creato i propri volumi
