@@ -46,7 +46,7 @@ $ docker container logs mysql1 | grep GENERATED
   [Entrypoint] GENERATED ROOT PASSWORD: GawLYjBYBUx3vjANyfuvez-Ixop
 ```
 
-> La password generata automaticamente è una one-time password per poter utilizzare il container bisogna cambiarla al primo login in MySQL.
+> La password generata automaticamente è una one-time password, per poter utilizzare il container come BackEend bisogna cambiarla al primo login in MySQL.
 
 #### Procediamo con il cambio della la password per l'utente root di mysql facendo il login con la password one-time generata del container
 ```
@@ -71,7 +71,13 @@ Query OK, 0 rows affected (0.02 sec)
 
 mysql>
 ```
-### Questo il comando per vedere i container che non sono in running
+
+> In questo caso ho utilizzato una weak password, consiglio di utilizzare in produzione password più sicure e forti.
+
+### Con il seguente comando si vedono i container che non sono in running
+
+>Può succedere che un container vada in errore e va in status di EXIT o ERROR
+
 ``$ docker container ls -a``
 
 ### proviamo ad installare diversi database anche di vesioni precedenti
