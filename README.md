@@ -16,9 +16,10 @@ uid=1000(massimo) gid=1000(massimo) gruppi=1000(massimo),4(adm),24(cdrom),27(sud
 ### se esiste aggiungo l'utente al gruppo
 ``$ sudo usermod -aG docker $USER``
 ### se non esiste, creo il gruppo ed aggiungo l'utente
-``$ sudo groupadd docker``
-
-``$ sudo usermod -aG docker $USER``
+```
+$ sudo groupadd docker
+$ sudo usermod -aG docker $USER
+```
 
 ### verifichiamo che docker è installato e che lo possiamo lanciare
 ``$ docker info``
@@ -29,11 +30,13 @@ uid=1000(massimo) gid=1000(massimo) gruppi=1000(massimo),4(adm),24(cdrom),27(sud
 ## Esercizio 01
 ### creiamo il nostro primo container, creiamo un DB
 ``$ docker run --name=mysql1 -d mysql/mysql-server``
+
 ``$ docker container ls``
 ### vediamo i "logs" di installazione in cui compare la password creata automaticamente
-``$ docker container logs mysql1 | grep GENERATED``
+```
+$ docker container logs mysql1 | grep GENERATED
   [Entrypoint] GENERATED ROOT PASSWORD: GawLYjBYBUx3vjANyfuvez-Ixop
-
+```
 #### resetto la password per l'utente root di mysql facendo il login con la password one-time generata del container
 ```
 $ docker exec -it mysql1 bash
