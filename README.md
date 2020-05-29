@@ -134,41 +134,46 @@ $ ip a
 ```
 $ docker container top mysql1
 
- UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
 27                  20372               20324               1                   09:57               ?                   00:00:13            mysqld --init-file=/var/lib/mysql-files/2AZpaJenaI
+
 $ docker container top mysql2
 
- UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
 27                  21288               21263               1                   10:09               ?                   00:00:07            mysqld --init-file=/var/lib/mysql-files/Qmit2GAWht
 ```
-### proviamo a lanciare container con applicativi differenti, tipo un frontend nginx
-``$ docker container run --name=web1 -d nginx``
+### Proviamo a lanciare container con applicativi differenti, due web Server nginx
+```
+$ docker container run --name=web1 -d nginx
+$ docker container run --name=web2 -d nginx
+```
 
-``$ docker container run --name=web2 -d nginx``
+>NB. il secondo container viene eseguito più velocemente perché l'immaggine di nginx viene scaricata la prima volta che si lancia il comando
 
-### i container possono essere stoppati o cancellati, se faccio stop posso fare lo start, se cancello con rm il container è perduto
-``$ docker container stop web2``
+### I container possono essere messi in stop o cancellati, se faccio lo stop posso fare lo start, se cancello con rm il container è perduto
+```
+$ docker container stop web2
+$ docker container start web2
+$ docker  container inspect web2 | grep IPAddress
+ "IPAddress": "172.17.0.4",
+```
+### Sapendo qual'è l'IP possiamo vedere se il servizio web serve funziona sulla porta 80 tramite il comando curl
+```
+$ curl 172.17.0.4
 
-``$ docker container start web2``
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and working. Further configuration is required.</p>
 
-``$ docker  container inspect web2 | grep IPAddress``
-> "IPAddress": "172.17.0.4",
-### sapendo quale è l'ip possiamo vedere se il servizio web serve funziona sulla porta 80 tramite il comando curl
-``$ curl 172.17.0.4``
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
 
-
-><body>
-><h1>Welcome to nginx!</h1>
-><p>If you see this page, the nginx web server is successfully installed and working. Further configuration is required.</p>
->
-><p>For online documentation and support please refer to
-><a href="http://nginx.org/">nginx.org</a>.<br/>
->Commercial support is available at
-><a href="http://nginx.com/">nginx.com</a>.</p>
->
-><p><em>Thank you for using nginx.</em></p>
-></body>
-></html>
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+```
 
 ### vediamo in questo tipo di container cosa gira
 ```
