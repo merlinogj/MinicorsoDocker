@@ -13,7 +13,8 @@ https://docs.docker.com/get-started/
 $ id
 uid=1000(massimo) gid=1000(massimo) gruppi=1000(massimo),4(adm),24(cdrom),27(sudo),**1003(docker)**
 ```
-### controllo se esiste il gruppo docker
+### Controlliamo se esiste il gruppo docker
+>Non è detto che l'installazione del pacchetto docker crei automaticamente il gruppo
 ``$ sudo cat /etc/group``
 * Se esiste aggiungo l'utente al gruppo
 
