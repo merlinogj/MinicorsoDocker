@@ -80,7 +80,10 @@ mysql>
 
 ``$ docker container ls -a``
 
-### proviamo ad installare diversi database anche di vesioni precedenti
+### Installiamo diversi database anche di versioni diverse o precedenti
+
+>La caratteristica più importante dei container è che ci permette di far coesistere interno allo stesso Sistema Operativo più processi di natura similare che non confliggono
+
 ```
 $ docker container run --name=mysql2 -d mysql/mysql-server
 $ docker container run --name=mysql5.7 -d mysql/mysql-server:5.7
