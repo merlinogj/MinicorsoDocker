@@ -8,9 +8,9 @@ https://docs.docker.com/get-started/
 
 ### Il mio utente è nel gruppo docker?
 ``$ id``      *serve per capire di quali gruppi facciamo parte*
-
-``uid=1000(massimo) gid=1000(massimo) gruppi=1000(massimo),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),112(lpadmin),124(sambashare),125(vboxusers),148(ubridge),149(libvirt),1001(bumblebee),1003(docker)
-``
+```
+uid=1000(massimo) gid=1000(massimo) gruppi=1000(massimo),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),112(lpadmin),124(sambashare),125(vboxusers),148(ubridge),149(libvirt),1001(bumblebee),1003(docker)
+```
 ### controllo se esiste il gruppo docker
 ``$ sudo cat /etc/group``
 ### se esiste aggiungo l'utente al gruppo
@@ -35,70 +35,73 @@ https://docs.docker.com/get-started/
   [Entrypoint] GENERATED ROOT PASSWORD: GawLYjBYBUx3vjANyfuvez-Ixop
 
 #### resetto la password per l'utente root di mysql facendo il login con la password one-time generata del container
-``$ docker exec -it mysql1 bash``
->bash-4.2# mysql -u root -pGawLYjBYBUx3vjANyfuvez-Ixop
->mysql: [Warning] Using a password on the command line interface can be insecure.
->Welcome to the MySQL monitor.  Commands end with ; or \g.
->Your MySQL connection id is 17
->
->Server version: 8.0.20
->
->Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
->
->Oracle is a registered trademark of Oracle Corporation and/or its
->affiliates. Other names may be trademarks of their respective
->owners.
->
->Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
->
->mysql> alter user 'root'@'localhost' identified by 'password';
->Query OK, 0 rows affected (0.02 sec)
->
->mysql>
+```
+$ docker exec -it mysql1 bash
+bash-4.2# mysql -u root -pGawLYjBYBUx3vjANyfuvez-Ixop
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 17
 
+Server version: 8.0.20
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> alter user 'root'@'localhost' identified by 'password';
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+```
 ### Questo il comando per vedere i container che non sono in running
 ``$ docker container ls -a``
 
 ### proviamo ad installare diversi database anche di vesioni precedenti
-``$ docker container run --name=mysql2 -d mysql/mysql-server``
-
-``$ docker container run --name=mysql5.7 -d mysql/mysql-server:5.7``
-
-``$ docker container ls``
+```
+$ docker container run --name=mysql2 -d mysql/mysql-server
+$ docker container run --name=mysql5.7 -d mysql/mysql-server:5.7
+$ docker container ls
+```
 ### Controlliamo se mysql2 ha la stessa password generata di mysql1
 ``$ docker conatainer logs mysql2  | grep GENERATED``
-> ``[Entrypoint] GENERATED ROOT PASSWORD: !AwfEBC0vYHIGExUc2ehKUbumef``
+```
+[Entrypoint] GENERATED ROOT PASSWORD: !AwfEBC0vYHIGExUc2ehKUbumef
+```
 
 ### ricavo l'ip del container
 ``$ docker container inspect mysql2 | grep IPAddress``
- > ``"IPAddress": "172.17.0.3",``
+  "IPAddress": "172.17.0.3",
 
 ``$ ping -c1 172.17.0.3``
 #### ricavo l'ip dell'host
-``$ ip a``
+```
+$ ip a
 
-
- >1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
-  link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-  inet 127.0.0.1/8 scope host lo
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
       valid_lft forever preferred_lft forever
-      inet6 ::1/128 scope host
+    inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
->
->2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 08:00:27:f7:2a:92 brd ff:ff:ff:ff:ff:ff
     inet **172.16.16.95/24** brd 172.16.16.255 scope global enp0s3
        valid_lft forever preferred_lft forever
     inet6 fe80::a00:27ff:fef7:2a92/64 scope link
        valid_lft forever preferred_lft forever
->
->4: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+
+4: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
     link/ether 02:42:95:2c:54:86 brd ff:ff:ff:ff:ff:ff
     inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
        valid_lft forever preferred_lft forever
     inet6 fe80::42:95ff:fe2c:5486/64 scope link
        valid_lft forever preferred_lft forever
-
+```
 ### voglio vedere i processi che girano dentro il container
 ``$ docker container top mysql1``
 
