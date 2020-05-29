@@ -127,19 +127,20 @@ $ ip a
     inet6 fe80::42:95ff:fe2c:5486/64 scope link
        valid_lft forever preferred_lft forever
 ```
-### voglio vedere i processi che girano dentro il container
-``$ docker container top mysql1``
+### Voglio vedere i processi che girano dentro il container
+
+>E' interessante capire cosa gira nel container in termini di processi, in effetti qui potete vedere che gira solo il processo di MySQL
+
+```
+$ docker container top mysql1
 
  UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
-
 27                  20372               20324               1                   09:57               ?                   00:00:13            mysqld --init-file=/var/lib/mysql-files/2AZpaJenaI
-
-``$ docker container top mysql2``
+$ docker container top mysql2
 
  UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
-
 27                  21288               21263               1                   10:09               ?                   00:00:07            mysqld --init-file=/var/lib/mysql-files/Qmit2GAWht
-
+```
 ### proviamo a lanciare container con applicativi differenti, tipo un frontend nginx
 ``$ docker container run --name=web1 -d nginx``
 
