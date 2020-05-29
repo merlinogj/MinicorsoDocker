@@ -204,14 +204,14 @@ local               d72bde5c8d9d483956cdddb4026b912a7e57d5f832b15c5b00abca874de7
 $ sudo find / 2> /dev/null | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
 
 /var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log.CSM
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log_203.sdi
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log.CSV
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log_202.sdi
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log.CSM
-/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log.CSV
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/general_log.CSM
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/slow_log_203.sdi
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/slow_log.CSV
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/general_log_202.sdi
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/slow_log.CSM
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data/mysql/general_log.CSV
 [output omitted...]
 ```
 ### per andare a vedere i files dobbiamo essere root ed il comando per diventare root è il seguente
