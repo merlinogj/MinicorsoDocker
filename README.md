@@ -96,10 +96,12 @@ $ docker container ls
 ```
 
 ### ricavo l'ip del container
-``$ docker container inspect mysql2 | grep IPAddress``
+```
+$ docker container inspect mysql2 | grep IPAddress
   "IPAddress": "172.17.0.3",
 
-``$ ping -c1 172.17.0.3``
+$ ping -c1 172.17.0.3
+````
 #### ricavo l'ip dell'host
 ```
 $ ip a
