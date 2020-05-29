@@ -15,9 +15,9 @@ uid=1000(massimo) gid=1000(massimo) gruppi=1000(massimo),4(adm),24(cdrom),27(sud
 ```
 ### controllo se esiste il gruppo docker
 ``$ sudo cat /etc/group``
-### se esiste aggiungo l'utente al gruppo
+* Se esiste aggiungo l'utente al gruppo
 ``$ sudo usermod -aG docker $USER``
-### se non esiste, creo il gruppo ed aggiungo l'utente
+* Altrimenti creo anche il gruppo ed aggiungo l'utente
 ```
 $ sudo groupadd docker
 $ sudo usermod -aG docker $USER
