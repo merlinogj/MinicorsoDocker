@@ -164,46 +164,38 @@ https://docs.docker.com/get-started/
 
 ## VOLUMES
 ### andiamo a vedere se i container MySQL hanno creato i propri volumi
-``$ docker volume ls``
+```
+$ docker volume ls
 
 DRIVER              VOLUME NAME
-
 local               bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
-
 local               d72bde5c8d9d483956cdddb4026b912a7e57d5f832b15c5b00abca874de759ca
-
+```
 ### vogliamo sapere dove docker mette i files dei container
-``$ sudo find / 2> /dev/null | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006``
+```
+$ sudo find / 2> /dev/null | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
 
->/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
->
->/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data
->
->/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql
->
->/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log.CSM
->
->/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log_203.sdi
->
->/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log.CSV
->
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log.CSM
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log_203.sdi
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log.CSV
 /var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log_202.sdi
->
 /var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/slow_log.CSM
->
->/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log.CSV
->[output omitted...]
-
+/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data/mysql/general_log.CSV
+[output omitted...]
+```
 ### per andare a vedere i files dobbiamo essere root ed il comando per diventare root è il seguente
 ``$ sudo -i``
 
 ### per vedere se un volume fa parte di un container usiamo l'inspect come segue
-``$docker container inspect mysql1 | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006``
-
+```
+$ docker container inspect mysql1 | grep bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006
                  "Name": "bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006",
 
-                "Source": "/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/\_data",
-
+                "Source": "/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data",
+```
 ### dopo aver creato gli oggetti in docker questi sono i comandi per vederne alcuni di interesse
 ``$ docker container ls -a``
 
@@ -230,37 +222,37 @@ local               d72bde5c8d9d483956cdddb4026b912a7e57d5f832b15c5b00abca874de7
 ``$ docker container ls``
 
 ### voglio usare il servizio del container con un client mysql
-``$ sudo apt install mysql-client``
+```
+$ sudo apt install mysql-client
+$ docker container inspect db1 | grep IPAddress
 
-``$ docker container inspect db1 | grep IPAddress``
+"IPAddress": "172.17.0.2",
 
->"IPAddress": "172.17.0.2",
+$ mysql -u root -p -h 172.17.0.2
 
-``$ mysql -u root -p -h 172.17.0.2``
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 5.5.5-10.4.13-MariaDB-1:10.4.13+maria~bionic mariadb.org binary distribution
 
->Enter password:
->Welcome to the MySQL monitor.  Commands end with ; or \g.
->Your MySQL connection id is 8
->Server version: 5.5.5-10.4.13-MariaDB-1:10.4.13+maria~bionic mariadb.org binary distribution
->
->Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
->
->Oracle is a registered trademark of Oracle Corporation and/or its
->affiliates. Other names may be trademarks of their respective
->owners.
->
->Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
->
->mysql> show databases;
->+--------------------+
->| Database           |
->+--------------------+
->| information_schema |
->| mysql              |
->| performance_schema |
->+--------------------+
->3 rows in set (0.01 sec)
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
 
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+3 rows in set (0.01 sec)
+```
 ###  facciamo un po' di pulizia con il **prune** che libera ciò che non è utilizzato
 ``$ docker container prune``
 
