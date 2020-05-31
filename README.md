@@ -6,6 +6,8 @@ https://docs.docker.com/get-started/
 ### installa docker nel sistema linux ubuntu 18.04
 ``$ sudo apt update && sudo apt upgrade -y && sudo apt install docker docker.io``
 
+>opzionalmente potete creare l'utente docker con il comando addsuser docker
+
 ### Il mio utente è nel gruppo docker?
 
 > *serve per capire di quali gruppi facciamo parte, in particolare vogliamo sapere se il nostro utente fa parte del gruppo docker*
@@ -38,7 +40,20 @@ $ sudo usermod -aG docker $USER
 ### Creiamo il nostro primo container, vogliamo usare un DB
 ```
 $ docker run --name=mysql1 -d mysql/mysql-server
+Unable to find image 'mysql/mysql-server:latest' locally
+latest: Pulling from mysql/mysql-server
+0e690826fc6e: Pull complete
+0e6c49086d52: Pull complete
+862ba7a26325: Pull complete
+7731c802ed08: Pull complete
+Digest: sha256:a82ff720911b2fd40a425fd7141f75d7c68fb9815ec3e5a5a881a8eb49677087
+Status: Downloaded newer image for mysql/mysql-server:latest
+3cb5148b27b33874ee1be3c32b6dbf7d3b5d8383333cbafe1344c202ec70bb1e
+
 $ docker container ls
+CONTAINER ID        IMAGE                                COMMAND                  CREATED              STATUS                          PORTS                                 NAMES
+3cb5148b27b3        mysql/mysql-server                   "/entrypoint.sh mysq…"   About a minute ago   Up About a minute (healthy)     3306/tcp, 33060/tcp                   mysql1
+
 ```
 ### Vogliamo vedere i "logs" di installazione in cui compare, per il container MySQL, la password creata automaticamente:
 ```
@@ -225,15 +240,13 @@ $ docker container inspect mysql1 | grep bc0fb476d54e21490b3b6bbcda6eb348768f708
                 "Source": "/var/lib/docker/volumes/bc0fb476d54e21490b3b6bbcda6eb348768f708314d4ae3634b67a0f8f158006/_data",
 ```
 ### dopo aver creato gli oggetti in docker questi sono i comandi per vederne alcuni di interesse
-``$ docker container ls -a``
-
-``$ docker volume ls``
-
-``$ docker image ls``
-
-``$ docker network ls``
-
-``$ ip a``
+```
+$ docker container ls -a
+$ docker volume ls
+$ docker image ls
+$ docker network ls
+$ ip a``
+```
 
 ### con il seguente comando vediamo tutta la configurazione del container web2
 
@@ -348,10 +361,10 @@ www-data            29502               29277               0                   
 
 ### Creo un volume condiviso per editare la pagina di default di nginx
 ```
-$ docker volume create nginx``
-$ docker container rm -f web1``
-$ docker container run -d --name web1 -v nginx:/usr/share/nginx/html nginx``
-$ docker container run -v nginx:/html -it --rm busybox``
+$ docker volume create nginx
+$ docker container rm -f web1
+$ docker container run -d --name web1 -v nginx:/usr/share/nginx/html nginx
+$ docker container run -v nginx:/html -it --rm busybox
 / # cd html/
 /html # ls
 50x.html    index.html
@@ -787,3 +800,6 @@ $ docker run -d -p 81:80 maxnignx:1.1
 $ docker tag maxnignx:1.1 merlinogj/maxnginx:1.1
 $ docker push merlinogj/maxnginx:1.1
 ```
+
+### Monitoring con Prometheus
+https://docs.docker.com/config/daemon/prometheus/
