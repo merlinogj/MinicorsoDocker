@@ -1,4 +1,5 @@
 # Intro
+>Questo corso è pienamente funzionale su una macchina virtuale (VirtualBox, VMware o KVM) con un sistema operativo Ubuntu (Desktop o Server) LTS 18.04 o superiore
 ## Minicorso Docker
 
 https://docs.docker.com/get-started/
@@ -6,11 +7,11 @@ https://docs.docker.com/get-started/
 ### installa docker nel sistema linux ubuntu 18.04
 ``$ sudo apt update && sudo apt upgrade -y && sudo apt install docker docker.io``
 
->opzionalmente potete creare l'utente docker con il comando addsuser docker
+>opzionalmente potete creare l'utente docker con il comando 'addsuser docker' che si occuperà di creare anche il gruppo docker di cui l'utente farà parte
 
 ### Il mio utente è nel gruppo docker?
 
-> *serve per capire di quali gruppi facciamo parte, in particolare vogliamo sapere se il nostro utente fa parte del gruppo docker*
+> *serve per capire di quali gruppi facciamo parte, in particolare vogliamo sapere se il nostro utente fa parte del gruppo docker*, di default gli utenti che fanno parte del gruppo **docker** possono usare i comandi docker senza i privilegi di root.
 ```
 $ id
 uid=1000(massimo) gid=1000(massimo) gruppi=1000(massimo),4(adm),24(cdrom),27(sudo),**1003(docker)**
@@ -303,7 +304,7 @@ mysql> show databases;
 
 ``$ docker container ls -a``
 
-### ora vogliamo creare il FrontEnd che si aggancia al BackEend con l'IP, user e password di MariaDB
+### ora vogliamo creare il **FrontEnd** che si aggancia al BackEend con l'IP, user e password di MariaDB
 ``$ docker run --name frontend -e WORDPRESS_DB_HOST=172.17.0.2:3306 -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=password -d wordpress``
 ### controllo che il frontend interagisca con il backend creando il DB wordpress
 ```
