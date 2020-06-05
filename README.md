@@ -771,7 +771,7 @@ docker login
 
 ``$ docker push bulletinboard:1.0 [accaunt]/bulletinboard:1-0``
 
-### installo la docker caricata du dockerhub
+### installo la docker caricata su dockerhub
 
 ``$ docker pull merlinogj/bulletinboard:1.0``
 
@@ -790,7 +790,7 @@ $ vi index.html
 <!DOCTYPE html> <html> <head> <title>Welcome to Massimo!</title> <style> body { width: 35em; margin: 0 auto; font-family: Tahoma, Verdana, Arial, sans-serif; } </style> </head> <body> <h1>Welcome to Massimo!</h1> <p>If you see this page, the nginx web server is successfully installed and working. Further configuration is required.</p> <p>For online documentation and support please refer to <a href="http://nginx.org/">nginx.org</a>.<br/> Commercial support is available at <a href="http://nginx.com/">nginx.com</a>.</p> <p><em>Thank you for using nginx.</em></p> </body> </html>
 
 $ docker build --tag maxnignx:1.1 .
-$ docker image ls
+
 $ docker image ls
 
 REPOSITORY                TAG                 IMAGE ID            CREATED             SIZE
@@ -800,6 +800,8 @@ $ docker run -d -p 81:80 maxnignx:1.1
 $ docker tag maxnignx:1.1 merlinogj/maxnginx:1.1
 $ docker push merlinogj/maxnginx:1.1
 ```
+
+### Cluster swarm
 
 ### Monitoring con Prometheus
 https://docs.docker.com/config/daemon/prometheus/
