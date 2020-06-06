@@ -902,7 +902,7 @@ $ docker service ls
 ID                  NAME                MODE                REPLICAS            IMAGE                             PORTS
 5fngakweds4w        web                 replicated          1/1                 nginx:latest                      
 ```
-
+### Servizio composto o stack singolo nodo
 ```
 $ mkdir stackdemo
 $ cd stackdemo
@@ -987,7 +987,7 @@ Creating stackdemo_web_1 ...
 Creating stackdemo_web_1
 Creating stackdemo_web_1 ... done
 ```
-### Servizio composto o stack
+### Servizio composto o stack in Swarm
 ```
 $ docker stack deploy --compose-file docker-compose.yml stackdemo
 Ignoring unsupported options: build
