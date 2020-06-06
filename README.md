@@ -835,7 +835,190 @@ $ docker push merlinogj/maxnginx:1.1
 
 ### Cluster swarm
 ```
-docker swarm init
+$ docker swarm init
+Swarm initialized: current node (c6698xxyseo8nnb9rknz800k2) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-69832mntsgml7zpocn50wywj6cofybyjy1umtajia2tqfakrl5-6sdmelyeve2m2gk2ye32svlb8 93.186.253.253:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 ```
+> andiamosu un altro nodo e lanciamo il comando
+```
+docker@Will1:~$ docker swarm join --token SWMTKN-1-69832mntsgml7zpocn50wywj6cofybyjy1umtajia2tqfakrl5-6sdmelyeve2m2gk2ye32svlb8 93.186.253.253:2377
+This node joined a swarm as a worker.
+docker@Will1:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:50:56:aa:06:81 brd ff:ff:ff:ff:ff:ff
+    inet 80.211.239.62/24 brd 80.211.239.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::250:56ff:feaa:681/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 00:50:56:aa:f3:ee brd ff:ff:ff:ff:ff:ff
+4: eth2: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether 00:50:56:aa:31:3b brd ff:ff:ff:ff:ff:ff
+5: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    link/ether 02:42:36:aa:84:62 brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:36ff:feaa:8462/64 scope link
+       valid_lft forever preferred_lft forever
+22: docker_gwbridge: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    link/ether 02:42:f4:f1:30:c6 brd ff:ff:ff:ff:ff:ff
+    inet 172.18.0.1/16 brd 172.18.255.255 scope global docker_gwbridge
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:f4ff:fef1:30c6/64 scope link
+       valid_lft forever preferred_lft forever
+24: veth8a1989d@if23: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker_gwbridge state UP group default
+    link/ether b6:5d:a9:33:8a:8b brd ff:ff:ff:ff:ff:ff link-netnsid 1
+    inet6 fe80::b45d:a9ff:fe33:8a8b/64 scope link
+       valid_lft forever preferred_lft forever
+docker@Will1:~$ docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+2a499cbf6ef3        bridge              bridge              local
+28d642a48e9a        docker_gwbridge     bridge              local
+dcda668f88b5        host                host                local
+y8nn5vw92ugx        ingress             overlay             swarm
+276fa2c75f2a        none                null                local
+```
+>Da notare che sui rispettivi nodi si sono attivate altre network di tipo bridge e overlay
+
+### Servizio semplice e scaling
+```
+$ docker service create --replicas 1 --name web nginx
+5fngakweds4wunkzk47joh0jz
+overall progress: 1 out of 1 tasks
+1/1: running   
+verify: Service converged
+$ docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE                             PORTS
+5fngakweds4w        web                 replicated          1/1                 nginx:latest                      
+```
+
+```
+$ mkdir stackdemo
+$ cd stackdemo
+$ vi app.py
+$ vi requirements.txt
+$ vi Dockerfile
+$ vi docker-compose.yml
+$ ls
+Dockerfile  app.py  docker-compose.yml  requirements.txt
+$ docker-compose up -d
+WARNING: The Docker Engine you're using is running in swarm mode.
+
+Compose does not use swarm mode to deploy services to multiple nodes in a swarm. All containers will be scheduled on the current node.
+
+To deploy your application across the swarm, use `docker stack deploy`.
+
+Creating network "stackdemo_default" with the default driver
+Building web
+Step 1/5 : FROM python:3.4-alpine
+3.4-alpine: Pulling from library/python
+8e402f1a9c57: Pull complete
+cda9ba2397ef: Pull complete
+aafecf9bbbfd: Pull complete
+bc2e7e266629: Pull complete
+e1977129b756: Pull complete
+Digest: sha256:c210b660e2ea553a7afa23b41a6ed112f85dbce25cbcb567c75dfe05342a4c4b
+Status: Downloaded newer image for python:3.4-alpine
+ ---> c06adcf62f6e
+Step 2/5 : ADD . /code
+ ---> 9d3b776cf32f
+Step 3/5 : WORKDIR /code
+ ---> Running in 0f024a381d40
+Removing intermediate container 0f024a381d40
+ ---> d3205a2e6fac
+Step 4/5 : RUN pip install -r requirements.txt
+ ---> Running in c3ecf8e6847f
+DEPRECATION: Python 3.4 support has been deprecated. pip 19.1 will be the last one supporting it. Please upgrade your Python as Python 3.4 won't be maintained after March 2019 (cf PEP 429).
+Collecting flask (from -r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/d8/94/7350820ae209ccdba073f83220cea1c376f2621254d1e0e82609c9a65e58/Flask-1.0.4-py2.py3-none-any.whl (92kB)
+Collecting redis (from -r requirements.txt (line 2))
+  Downloading https://files.pythonhosted.org/packages/32/ae/28613a62eea0d53d3db3147f8715f90da07667e99baeedf1010eb400f8c0/redis-3.3.11-py2.py3-none-any.whl (66kB)
+Collecting Werkzeug>=0.14 (from flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/c2/e4/a859d2fe516f466642fa5c6054fd9646271f9da26b0cac0d2f37fc858c8f/Werkzeug-0.16.1-py2.py3-none-any.whl (327kB)
+Collecting Jinja2>=2.10 (from flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/65/e0/eb35e762802015cab1ccee04e8a277b03f1d8e53da3ec3106882ec42558b/Jinja2-2.10.3-py2.py3-none-any.whl (125kB)
+Collecting itsdangerous>=0.24 (from flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+Collecting click>=5.1 (from flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/fa/37/45185cb5abbc30d7257104c434fe0b07e5a195a6847506c074527aa599ec/Click-7.0-py2.py3-none-any.whl (81kB)
+Collecting MarkupSafe>=0.23 (from Jinja2>=2.10->flask->-r requirements.txt (line 1))
+  Downloading https://files.pythonhosted.org/packages/b9/2e/64db92e53b86efccfaea71321f597fa2e1b2bd3853d8ce658568f7a13094/MarkupSafe-1.1.1.tar.gz
+Building wheels for collected packages: MarkupSafe
+  Building wheel for MarkupSafe (setup.py): started
+  Building wheel for MarkupSafe (setup.py): finished with status 'done'
+  Stored in directory: /root/.cache/pip/wheels/f2/aa/04/0edf07a1b8a5f5f1aed7580fffb69ce8972edc16a505916a77
+Successfully built MarkupSafe
+Installing collected packages: Werkzeug, MarkupSafe, Jinja2, itsdangerous, click, flask, redis
+Successfully installed Jinja2-2.10.3 MarkupSafe-1.1.1 Werkzeug-0.16.1 click-7.0 flask-1.0.4 itsdangerous-1.1.0 redis-3.3.11
+You are using pip version 19.0.3, however version 19.1.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+Removing intermediate container c3ecf8e6847f
+ ---> f2090fd0525c
+Step 5/5 : CMD ["python", "app.py"]
+ ---> Running in 55b3597809a6
+Removing intermediate container 55b3597809a6
+ ---> 2eb130ab162a
+Successfully built 2eb130ab162a
+Successfully tagged 127.0.0.1:5000/stackdemo:latest
+WARNING: Image for service web was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Pulling redis (redis:alpine)...
+alpine: Pulling from library/redis
+df20fa9351a1: Already exists
+9b8c029ceab5: Pull complete
+e983a1eb737a: Pull complete
+2e09334c25b1: Pull complete
+cd5f0c28bbb7: Pull complete
+ff366bbd9e6e: Pull complete
+Digest: sha256:50ce670996835d83e070a6b26ef168de774333cf6317cd1bad45f84da1421e24
+Status: Downloaded newer image for redis:alpine
+Creating stackdemo_redis_1 ...
+Creating stackdemo_web_1 ...
+Creating stackdemo_web_1
+Creating stackdemo_web_1 ... done
+```
+### Servizio composto o stack
+```
+$ docker stack deploy --compose-file docker-compose.yml stackdemo
+Ignoring unsupported options: build
+
+Creating network stackdemo_default
+Creating service stackdemo_redis
+Creating service stackdemo_web
+
+$ docker stack services stackdemo
+ID                  NAME                MODE                REPLICAS            IMAGE                             PORTS
+hn31w6xsn8j7        stackdemo_redis     replicated          1/1                 redis:alpine                      
+lpvbhymyq2j0        stackdemo_web       replicated          1/1                 127.0.0.1:5000/stackdemo:latest   *:8000->8000/tcp
+
+$ docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+bf1e8657ead6        bridge              bridge              local
+8e1e247497ef        docker_default      bridge              local
+54a6c86c3e19        docker_gwbridge     bridge              local
+dbfef2fb149c        host                host                local
+y8nn5vw92ugx        ingress             overlay             swarm
+79d3632aa486        newnet1             bridge              local
+99913a05d52f        none                null                local
+21038e0e91db        stackdemo_default   bridge              local
+quc50l7lcnca        stackdemo_default   overlay             swarm
+
+$ docker stack ls
+NAME                SERVICES            ORCHESTRATOR
+stackdemo           2                   Swarm
+
+
+```
+
 ### Monitoring con Prometheus
 https://docs.docker.com/config/daemon/prometheus/
