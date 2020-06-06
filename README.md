@@ -398,6 +398,11 @@ Commercial support is available at
 /html #
 vi index.html
 ```
+
+##Esercizio Docker compose
+```
+$ apt install -y docker-compose
+```
 ### docker-compose mi aiuta a risparmiare tempo e mi introduce nell'"Infrastructure as a code"
 ``$ vi wp.yaml``
 ```
