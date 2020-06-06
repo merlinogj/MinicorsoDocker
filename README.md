@@ -754,13 +754,14 @@ Commercial support is available at
 /html # echo 'ciao vincenzo giovanni ettore andre arturo'>>index.html
 /html # exit
 ```
-
+##Docker Image
 ### Build and run your image
-``$ git clone https://github.com/dockersamples/node-bulletin-board``
-``$ cd node-bulletin-board/bulletin-board-app``
-``$ ls``
+```
+$ git clone https://github.com/dockersamples/node-bulletin-board
+$ cd node-bulletin-board/bulletin-board-app
+$ ls
 
-``$ cat Dockerfile``
+$ cat Dockerfile
 ```
 docker build --tag bulletinboar:1.0 .
 ls
