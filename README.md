@@ -763,20 +763,21 @@ $ ls
 
 $ cat Dockerfile
 
-docker build --tag bulletinboar:1.0 .
-ls
-docker image ls
-docker container run --network host -d bulletinboard:1.0
-docker container ls
-docker login
+$ docker build --tag bulletinboard:1.0 .
+$ ls
+$ docker image ls
+$ docker container run --network host -d bulletinboard:1.0
+$ docker container ls
+$ docker login
 ```
+>NB. se da problemi $ sudo apt install gnupg2 pass
 ### rendo pubblica (condivido) la docker creata
 
-``$ docker tag bulletinboard:1.0 [accaunt]/bulletinboard:1-0``
+``$ docker tag bulletinboard:1.0 [account]/bulletinboard:1.0``
 
 ### trasferisco su dockerhub
 
-``$ docker push bulletinboard:1.0 [accaunt]/bulletinboard:1-0``
+``$ docker push bulletinboard:1.0 [account]/bulletinboard:1.0``
 
 ### installo la docker caricata su dockerhub
 
