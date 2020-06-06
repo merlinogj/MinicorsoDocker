@@ -777,7 +777,7 @@ $ docker login
 
 ### trasferisco su dockerhub
 
-``$ docker push bulletinboard:1.0 [account]/bulletinboard:1.0``
+``$ docker push [account]/bulletinboard:1.0``
 
 ### installo la docker caricata su dockerhub
 
