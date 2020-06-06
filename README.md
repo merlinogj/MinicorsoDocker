@@ -987,6 +987,23 @@ Creating stackdemo_web_1 ...
 Creating stackdemo_web_1
 Creating stackdemo_web_1 ... done
 ```
+
+### push stackdemo on pubblic registry
+```
+$ docker tag 127.0.0.1:5000/stackdemo:latest merlinogj/stackdemo:latest
+$ docker push merlinogj/stackdemo:latest
+The push refers to repository [docker.io/merlinogj/stackdemo]
+ccc59aba5c7b: Pushed
+772f095d26f9: Pushed
+62de8bcc470a: Mounted from library/python
+58026b9b6bf1: Mounted from library/python
+fbe16fc07f0d: Mounted from library/python
+aabe8fddede5: Mounted from library/python
+bcf2f368fe23: Mounted from library/python
+latest: digest: sha256:562284499c9de4b61f35907537917f421301c7367d700c8ead9216d0f4b11e61 size: 1786
+
+```
+
 ### Servizio composto o stack in Swarm
 ```
 $ docker stack deploy --compose-file docker-compose.yml stackdemo
@@ -1016,9 +1033,10 @@ quc50l7lcnca        stackdemo_default   overlay             swarm
 $ docker stack ls
 NAME                SERVICES            ORCHESTRATOR
 stackdemo           2                   Swarm
-
-
 ```
 
 ### Monitoring con Prometheus
 https://docs.docker.com/config/daemon/prometheus/
+```
+$ sudo vi /etc/docker/daemon.json
+```
